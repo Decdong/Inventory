@@ -22,4 +22,6 @@ public class RecalledProduct {
 
     @Column(unique=true)
     String name;
+
+
 }

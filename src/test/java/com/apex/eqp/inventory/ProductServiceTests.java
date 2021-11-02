@@ -10,16 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @SpringBootTest
-class ProductServiceTests {
+class  ProductServiceTests {
 
     @Autowired
     ProductService productService;
 
     @Autowired
     RecalledProductService recalledProductService;
+
 
     /**
      * Helper method to create test products
@@ -69,4 +71,32 @@ class ProductServiceTests {
 
         Assertions.assertNotNull(productService.findById(loadedProduct.getId()).orElse(null));
     }
+    @Test
+    void  shouldKeepOnlyInProduct(){
+        Product product1=createTestProduct("A", 1.2, 6);
+        Product product2=createTestProduct("B", 1.3, 16);
+        Product product3=createTestProduct("C", 1.4, 26);
+        Product product4=createTestProduct("D", 1.5, 26);
+        Product product5=createTestProduct("E", 1.6, 36);
+        Product savedProduct1=productService.save(product1);
+        Product savedProduct2=productService.save(product2);
+        Product savedProduct3=productService.save(product3);
+        Product savedProduct4=productService.save(product4);
+        Product savedProduct5=productService.save(product5);
+
+        RecalledProduct recalledProduct1=createTestRecalledProduct("A");
+        RecalledProduct recalledProduct2=createTestRecalledProduct("B");
+        RecalledProduct saveRecallProduct1=recalledProductService.save(recalledProduct1);
+        RecalledProduct saveRecallProduct2=recalledProductService.save(recalledProduct2);
+
+        Collection <Product> collection= new ArrayList<>() ;
+        collection.add(savedProduct3);
+        collection.add(savedProduct4);
+        collection.add(savedProduct5);
+
+        Assertions.assertEquals(collection,productService.getAllProduct());
+
+
+    }
+
 }
