@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -25,22 +26,25 @@ public class ProductFilter {
 
     public List<Product> removeRecalled(Collection<Product> allProduct, List<String> ls) {
 
-        List<Product> res= new ArrayList<>();
-        for (Product p: allProduct) {
-            if ( filterByName(p,ls) ) res.add(p);
-        }
-        return res;
-//        return allProduct.stream().filter(ProductFilter::filterByName).collect(Collectors.toList());
+//        List<Product> res= new ArrayList<>();
+//        for (Product p: allProduct) {
+//            if ( filterByName(p,ls) ) res.add(p);
+//        }
+//        return res;
+        List<String>  list=ls;
+
+        return allProduct.stream().filter(e-> filterByName(e,list)).collect(Collectors.toList());
+        
     }
 
-    private static boolean filterByName(Product product,List<String> ls) {
-        if (ls.contains(product.getName()) ) return false;
+
+
+    private static boolean filterByName(Product product,List<String> list) {
+        if (list.contains(product.getName()) ) return false;
         return true;
     }
 
-
 }
-
 
 
 
